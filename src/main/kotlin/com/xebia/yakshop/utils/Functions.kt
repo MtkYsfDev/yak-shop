@@ -48,7 +48,8 @@ class Functions {
                 skins++
             }
             while (ageToDay > (ageOfLastShave + intervalOfShaving)
-                    && (ageOfLastShave + intervalOfShaving) < Constants.MAX_DAYS_ALIVE) {
+                && (ageOfLastShave + intervalOfShaving) < Constants.MAX_DAYS_ALIVE
+            ) {
                 intervalOfShaving = calculateIntervalOfShaving(ageOfLastShave)
                 if ((ageOfLastShave + intervalOfShaving) < ageToDay) {
                     skins++

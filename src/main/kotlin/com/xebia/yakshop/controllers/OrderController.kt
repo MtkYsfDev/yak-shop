@@ -1,10 +1,8 @@
 package com.xebia.yakshop.controllers
 
-import com.xebia.yakshop.models.Herd
 import com.xebia.yakshop.models.Order
 import com.xebia.yakshop.models.Stock
-import com.xebia.yakshop.repositories.HerdRepository
-import com.xebia.yakshop.utils.Functions
+import com.xebia.yakshop.service.OrderService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -14,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody
 
 
 @Controller
-class OrderController(private val herdRepository: HerdRepository) {
+class OrderController(private val orderService: OrderService) {
     @PostMapping("/order/{days}", consumes = ["application/json", "application/xml"])
     fun queryOrder(@PathVariable days: Int, @RequestBody order: Order): ResponseEntity<Any> {
-        val herd: Herd = herdRepository.findAll().iterator().next()
-        val stock: Stock = Functions.calculateStock(herd, days).first
+        //TODO: Handle empty herd
+
+        val stock: Stock = orderService.queryOrder(days, order)
         val result: HashMap<String, Any> = HashMap()
         if (order.order.milk <= stock.milk) {
             result["milk"] = order.order.milk
